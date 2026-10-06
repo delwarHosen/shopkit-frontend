@@ -33,3 +33,34 @@ export function categoryLabel(
 ) {
   return (dict.categoryNames as Record<string, string>)[c.slug] ?? c.name;
 }
+
+/** পণ্যের নাম বর্তমান ভাষায় (ডিকশনারিতে না থাকলে মূল নাম) */
+export function productLabel(
+  dict: Dictionary,
+  p: { slug: string; name: string },
+) {
+  return (dict.productNames as Record<string, string>)[p.slug] ?? p.name;
+}
+
+/** ব্যানারের লেখা বর্তমান ভাষায় */
+export function bannerText(
+  dict: Dictionary,
+  b: { id: string; title: string; subtitle: string; cta: string },
+) {
+  return (
+    (
+      dict.banners as Record<
+        string,
+        { title: string; subtitle: string; cta: string }
+      >
+    )[b.id] ?? b
+  );
+}
+
+/** "মাত্র {n}টি বাকি" ধরনের টেমপ্লেটে মান বসায় */
+export function fill(
+  template: string,
+  values: Record<string, string | number>,
+) {
+  return template.replace(/\{(\w+)\}/g, (_, k) => String(values[k] ?? ""));
+}

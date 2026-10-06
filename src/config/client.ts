@@ -1,17 +1,39 @@
 export const clientConfig = {
-  name: "ডেমো স্টোর",
-  tagline: "আপনার পছন্দের সবকিছু এক জায়গায়",
+  name: { bn: "ডেমো স্টোর", en: "Demo Store" },
+  tagline: {
+    bn: "আপনার পছন্দের সবকিছু এক জায়গায়",
+    en: "Everything you love, in one place",
+  },
+  announcement: {
+    bn: "সারা দেশে ক্যাশ অন ডেলিভারি • ৳৩,০০০-এর ওপরে অর্ডারে ফ্রি ডেলিভারি",
+    en: "Cash on delivery nationwide • Free delivery on orders over ৳3,000",
+  },
+  contact: {
+    phone: "+8801700000000",
+    email: "hello@demostore.com",
+    address: { bn: "ধানমন্ডি, ঢাকা", en: "Dhanmondi, Dhaka" },
+    hours: { bn: "প্রতিদিন সকাল ১০টা থেকে রাত ৯টা", en: "Daily, 10 AM to 9 PM" },
+  },
+  // ফাঁকা স্ট্রিং রাখলে আইকন দেখাবে না
+  social: {
+    facebook: "https://facebook.com",
+    instagram: "https://instagram.com",
+    youtube: "",
+    whatsapp: "https://wa.me/8801700000000",
+  },
   theme: {
     primary: "#0f766e",
     primaryForeground: "#ffffff",
     radius: "0.75rem",
   },
   currency: { code: "BDT", symbol: "৳" },
+  // একটাই ভাষা রাখলে (যেমন ["bn"]) ভাষা বাটন নিজে থেকে লুকিয়ে যাবে
   languages: ["bn", "en"],
   features: {
     bkash: true,
     nagad: true,
     cod: true,
+    card: true,
     courier: ["steadfast", "pathao"],
     reviews: true,
     wishlist: true,

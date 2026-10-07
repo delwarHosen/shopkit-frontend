@@ -55,7 +55,12 @@ export type Banner = {
 };
 
 /* ---------- Listing ---------- */
-export type ProductSort = "newest" | "popular" | "rating" | "price-asc" | "price-desc";
+export type ProductSort =
+  | "newest"
+  | "popular"
+  | "rating"
+  | "price-asc"
+  | "price-desc";
 
 export type ProductFilters = {
   category?: string; // category slug
@@ -132,6 +137,10 @@ export type Order = {
   status: OrderStatus;
   courier?: CourierName;
   trackingId?: string;
+  email?: string;
+  note?: string;
+  trxId?: string;
+  couponCode?: string;
   createdAt: string;
   timeline: OrderEvent[];
 };

@@ -30,6 +30,7 @@ import {
   getRelatedProducts,
   getReviewsByProduct,
 } from "@/lib/services";
+import { WishlistButton } from "@/components/shop/WishlistButton";
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
@@ -162,9 +163,12 @@ export default async function ProductPage({ params }: Props) {
           <p className="text-sm text-muted-foreground">
             {brandLabel(dict, product.brand)}
           </p>
-          <h1 className="mt-1 text-2xl font-bold leading-tight tracking-tight sm:text-3xl">
-            {name}
-          </h1>
+          <div className="mt-1 flex items-start justify-between gap-3">
+            <h1 className="text-2xl font-bold leading-tight tracking-tight sm:text-3xl">
+              {name}
+            </h1>
+            <WishlistButton productId={product.id} variant="inline" />
+          </div>
 
           <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1">
             <a href="#reviews" className="hover:opacity-80">

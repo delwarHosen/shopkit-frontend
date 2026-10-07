@@ -1,7 +1,10 @@
 import {
+  createOrder,
   getOrderById,
   getOrders,
+  trackOrder,
   updateOrderStatus,
+  type OrderInput,
 } from "@/lib/services/orders.service";
 import type { Order, OrderFilters, OrderStatus, Paginated } from "@/types/shop";
 import { baseApi } from "./baseApi";
@@ -22,6 +25,15 @@ export const ordersApi = baseApi.injectEndpoints({
         run(() => updateOrderStatus(id, status), 300),
       invalidatesTags: ["Order", "Stats"],
     }),
+    trackOrder: b.query<Order | null, { orderNumber: string; phone: string }>({
+      queryFn: ({ orderNumber, phone }) =>
+        run(() => trackOrder(orderNumber, phone), 500),
+      providesTags: ["Order"],
+    }),
+    placeOrder: b.mutation<Order, OrderInput>({
+      queryFn: (input) => run(() => createOrder(input), 700),
+      invalidatesTags: ["Order", "Stats", "Customer"],
+    }),
   }),
 });
 
@@ -29,4 +41,6 @@ export const {
   useGetOrdersQuery,
   useGetOrderQuery,
   useUpdateOrderStatusMutation,
+  usePlaceOrderMutation,
+  useLazyTrackOrderQuery,
 } = ordersApi;

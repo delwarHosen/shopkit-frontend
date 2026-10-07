@@ -19,6 +19,7 @@ import { LocaleLink } from "@/i18n/LocaleLink";
 import { formatNumber } from "@/lib/format";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { selectCartCount } from "@/store/slices/cartSlice";
+import { selectWishlistCount } from "@/store/slices/wishlistSlice";
 import {
   closeMobileMenu,
   closeSearch,
@@ -42,6 +43,8 @@ export function Header({ categories }: { categories: CategoryWithCount[] }) {
 
   const cartCount = useAppSelector(selectCartCount);
   const cartHydrated = useAppSelector((s) => s.cart.hydrated);
+  const wishCount = useAppSelector(selectWishlistCount);
+  const wishHydrated = useAppSelector((s) => s.wishlist.hydrated);
   const searchOpen = useAppSelector((s) => s.ui.searchOpen);
 
   // পেজ বদলালে মেনু ও সার্চ বন্ধ
@@ -95,7 +98,7 @@ export function Header({ categories }: { categories: CategoryWithCount[] }) {
                       {dict.nav.categories}
                       <ChevronDown className="size-4 transition-transform group-hover:rotate-180 group-focus-within:rotate-180" />
                     </button>
-                    <div className="invisible absolute inset-s-0 top-full z-50 w-72 pt-2 opacity-0 transition-all group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
+                    <div className="invisible absolute start-0 top-full z-50 w-72 pt-2 opacity-0 transition-all group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
                       <ul className="rounded-(--radius) border border-border bg-background p-2 shadow-lg">
                         {categories.map((c) => (
                           <li key={c.id}>
@@ -151,6 +154,11 @@ export function Header({ categories }: { categories: CategoryWithCount[] }) {
                 aria-label={dict.nav.wishlist}
               >
                 <Heart className="size-5" />
+                {wishHydrated && wishCount > 0 && (
+                  <span className="absolute -end-0.5 -top-0.5 grid min-w-5 place-items-center rounded-full bg-rose-500 px-1 text-[11px] font-semibold leading-5 text-white">
+                    {formatNumber(wishCount, locale)}
+                  </span>
+                )}
               </LocaleLink>
             )}
 
@@ -169,7 +177,7 @@ export function Header({ categories }: { categories: CategoryWithCount[] }) {
             >
               <ShoppingBag className="size-5" />
               {cartHydrated && cartCount > 0 && (
-                <span className="absolute -inset-e-2.5 -top-0.5 grid min-w-5 place-items-center rounded-full bg-primary px-1 text-[11px] font-semibold leading-5 text-primary-foreground">
+                <span className="absolute -end-0.5 -top-0.5 grid min-w-5 place-items-center rounded-full bg-primary px-1 text-[11px] font-semibold leading-5 text-primary-foreground">
                   {formatNumber(cartCount, locale)}
                 </span>
               )}

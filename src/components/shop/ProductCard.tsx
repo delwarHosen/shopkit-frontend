@@ -12,14 +12,9 @@ import { useAppDispatch } from "@/store/hooks";
 import { addItem } from "@/store/slices/cartSlice";
 import type { Product } from "@/types/shop";
 import { Stars } from "./Stars";
+import { WishlistButton } from "./WishlistButton";
 
-export function ProductCard({
-  product,
-  priority = false,
-}: {
-  product: Product;
-  priority?: boolean;
-}) {
+export function ProductCard({ product, priority = false }: { product: Product; priority?: boolean }) {
   const dict = useDictionary();
   const locale = useLocale();
   const dispatch = useAppDispatch();
@@ -45,11 +40,7 @@ export function ProductCard({
   return (
     <article className="group flex flex-col">
       <div className="relative overflow-hidden rounded-(--radius) bg-muted">
-        <LocaleLink
-          href={href}
-          className="relative block aspect-4/5"
-          aria-label={name}
-        >
+        <LocaleLink href={href} className="relative block aspect-4/5" aria-label={name}>
           <Image
             src={product.images[0]}
             alt={name}
@@ -71,29 +62,17 @@ export function ProductCard({
 
         <div className="pointer-events-none absolute start-2 top-2 flex flex-col items-start gap-1">
           {discount > 0 && (
-            <span className={`${badge} bg-rose-600 text-white`}>
-              -{formatNumber(discount, locale)}%
-            </span>
+            <span className={`${badge} bg-rose-600 text-white`}>-{formatNumber(discount, locale)}%</span>
           )}
-          {product.isNew && (
-            <span className={`${badge} bg-primary text-primary-foreground`}>
-              {dict.product.new}
-            </span>
-          )}
-          {soldOut && (
-            <span className={`${badge} bg-foreground text-background`}>
-              {dict.product.soldOut}
-            </span>
-          )}
+          {product.isNew && <span className={`${badge} bg-primary text-primary-foreground`}>{dict.product.new}</span>}
+          {soldOut && <span className={`${badge} bg-foreground text-background`}>{dict.product.soldOut}</span>}
         </div>
+
+        <WishlistButton productId={product.id} className="absolute end-2 top-2 z-10" />
 
         {!soldOut &&
           (hasOptions ? (
-            <LocaleLink
-              href={href}
-              className={roundBtn}
-              aria-label={`${dict.product.chooseOptions}: ${name}`}
-            >
+            <LocaleLink href={href} className={roundBtn} aria-label={`${dict.product.chooseOptions}: ${name}`}>
               <ShoppingBag className="size-[18px]" />
             </LocaleLink>
           ) : (
@@ -115,19 +94,13 @@ export function ProductCard({
                 setAdded(true);
               }}
             >
-              {added ? (
-                <Check className="size-[18px] text-primary" />
-              ) : (
-                <ShoppingBag className="size-[18px]" />
-              )}
+              {added ? <Check className="size-[18px] text-primary" /> : <ShoppingBag className="size-[18px]" />}
             </button>
           ))}
       </div>
 
       <div className="mt-3 flex flex-1 flex-col gap-1">
-        <p className="text-xs text-muted-foreground">
-          {brandLabel(dict, product.brand)}
-        </p>
+        <p className="text-xs text-muted-foreground">{brandLabel(dict, product.brand)}</p>
         <h3 className="line-clamp-2 text-sm font-medium leading-snug">
           <LocaleLink href={href} className="hover:text-primary">
             {name}
@@ -135,9 +108,7 @@ export function ProductCard({
         </h3>
         <Stars rating={product.rating} count={product.reviewCount} />
         <div className="mt-auto flex items-baseline gap-2 pt-1">
-          <span className="font-bold">
-            {formatPrice(product.price, locale)}
-          </span>
+          <span className="font-bold">{formatPrice(product.price, locale)}</span>
           {product.comparePrice && product.comparePrice > product.price && (
             <span className="text-xs text-muted-foreground line-through">
               {formatPrice(product.comparePrice, locale)}
@@ -146,9 +117,7 @@ export function ProductCard({
         </div>
         {lowStock && (
           <p className="text-xs font-medium text-orange-600 dark:text-orange-400">
-            {fill(dict.product.lowStock, {
-              n: formatNumber(product.stock, locale),
-            })}
+            {fill(dict.product.lowStock, { n: formatNumber(product.stock, locale) })}
           </p>
         )}
       </div>
